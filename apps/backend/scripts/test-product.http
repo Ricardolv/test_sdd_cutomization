@@ -1,0 +1,135 @@
+@baseUrl = http://localhost:9090
+
+### POST /products - create product success
+POST {{baseUrl}}/products
+Content-Type: application/json
+
+{
+  "name": "Widget Pro",
+  "description": "A professional widget",
+  "price": 29.99,
+  "status": "active",
+  "availableOnline": true,
+  "featured": false,
+  "allowsPreOrder": false
+}
+
+### POST /products - create with draft status
+POST {{baseUrl}}/products
+Content-Type: application/json
+
+{
+  "name": "Draft Product",
+  "description": "Not yet ready",
+  "price": 15.00,
+  "status": "draft",
+  "availableOnline": false,
+  "featured": false,
+  "allowsPreOrder": false
+}
+
+### POST /products - missing name (should fail 400)
+POST {{baseUrl}}/products
+Content-Type: application/json
+
+{
+  "name": "",
+  "description": "desc",
+  "price": 10.00,
+  "status": "active"
+}
+
+### POST /products - name too short (should fail 400)
+POST {{baseUrl}}/products
+Content-Type: application/json
+
+{
+  "name": "A",
+  "description": "desc",
+  "price": 10.00,
+  "status": "active"
+}
+
+### POST /products - negative price (should fail 400)
+POST {{baseUrl}}/products
+Content-Type: application/json
+
+{
+  "name": "Bad Price",
+  "description": "desc",
+  "price": -5.00,
+  "status": "active"
+}
+
+### POST /products - price too many decimals (should fail 400)
+POST {{baseUrl}}/products
+Content-Type: application/json
+
+{
+  "name": "Bad Precision",
+  "description": "desc",
+  "price": 10.999,
+  "status": "active"
+}
+
+### POST /products - invalid status (should fail 400)
+POST {{baseUrl}}/products
+Content-Type: application/json
+
+{
+  "name": "Bad Status",
+  "description": "desc",
+  "price": 10.00,
+  "status": "unknown"
+}
+
+### GET /products - list all paginated
+GET {{baseUrl}}/products?page=1&limit=10
+
+### GET /products/{id} - get by id
+GET {{baseUrl}}/products/{{product_id}}
+
+### PUT /products/{id} - update product success
+PUT {{baseUrl}}/products/{{product_id}}
+Content-Type: application/json
+
+{
+  "name": "Widget Pro Updated",
+  "description": "Updated description",
+  "price": 39.99,
+  "status": "inactive",
+  "availableOnline": true,
+  "featured": true,
+  "allowsPreOrder": true
+}
+
+### PUT /products/{id} - update nonexistent product (should fail 404)
+PUT {{baseUrl}}/products/nonexistent-id
+Content-Type: application/json
+
+{
+  "name": "Ghost",
+  "description": "desc",
+  "price": 10.00,
+  "status": "active"
+}
+
+### PUT /products/{id} - update with invalid name (should fail 400)
+PUT {{baseUrl}}/products/{{product_id}}
+Content-Type: application/json
+
+{
+  "name": "",
+  "description": "desc",
+  "price": 10.00,
+  "status": "active"
+}
+
+### DELETE /products/{id} - delete product success
+DELETE {{baseUrl}}/products/{{product_id}}
+
+### DELETE /products/{id} - delete nonexistent product (should fail 404)
+DELETE {{baseUrl}}/products/nonexistent-id
+
+### GET /products/{id} - get deleted product (should fail 404)
+GET {{baseUrl}}/products/{{product_id}}

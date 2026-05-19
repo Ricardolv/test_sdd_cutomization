@@ -18,6 +18,9 @@ import (
 	customerHandlers "github.com/sdd-cod3r/test-app/apps/backend/internal/modules/customer/handlers"
 	"github.com/sdd-cod3r/test-app/apps/backend/internal/modules/customer/repositories"
 	"github.com/sdd-cod3r/test-app/apps/backend/internal/modules/customer/services"
+	catalogHandlers "github.com/sdd-cod3r/test-app/apps/backend/internal/modules/catalog/handlers"
+	catalogRepositories "github.com/sdd-cod3r/test-app/apps/backend/internal/modules/catalog/repositories"
+	catalogServices "github.com/sdd-cod3r/test-app/apps/backend/internal/modules/catalog/services"
 	"github.com/sdd-cod3r/test-app/apps/backend/internal/modules/handlers"
 	appmiddleware "github.com/sdd-cod3r/test-app/apps/backend/internal/modules/middleware"
 )
@@ -34,6 +37,11 @@ func main() {
 	customerRepo := repositories.NewPostgresCustomerRepository(db)
 	customerService := services.NewCustomerService(customerRepo)
 	customerHandler := customerHandlers.NewCustomerHandler(customerService)
+
+	productRepo := catalogRepositories.NewPostgresProductRepository(db)
+	saveProductUC := catalogServices.NewSaveProductUseCase(productRepo)
+	deleteProductUC := catalogServices.NewDeleteProductUseCase(productRepo)
+	productHandler := catalogHandlers.NewProductHandler(saveProductUC, deleteProductUC, productRepo)
 
 	crypto := authProviders.NewBcryptCryptoProvider()
 	authRepo := authRepositories.NewPostgresAuthRepository(db)
@@ -62,6 +70,7 @@ func main() {
 	router.Get("/health", handlers.HealthCheck)
 	router.Mount("/auth", authHandler.Routes())
 	router.Mount("/customers", customerHandler.Routes())
+	router.Mount("/products", productHandler.Routes())
 	router.Mount("/users", userHandler.Routes())
 
 	fmt.Printf("Server starting on :%s\n", cfg.Port)

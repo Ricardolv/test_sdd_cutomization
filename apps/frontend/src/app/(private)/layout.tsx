@@ -1,12 +1,13 @@
 import React from 'react'
 import { Sidebar } from '@/shared/components'
 import { AuthGuard } from '@/modules/auth'
-import { LayoutDashboard, Users, Settings, UserCog } from 'lucide-react'
+import { LayoutDashboard, Users, Settings, UserCog, Package } from 'lucide-react'
 import { PrivateShell } from '@/modules/auth/components/private-shell'
 
 const navItems = [
   { href: '/dashboard', label: 'Dashboard', icon: <LayoutDashboard /> },
   { href: '/customers', label: 'Customers', icon: <Users /> },
+  { href: '/catalog/products', label: 'Products', icon: <Package /> },
   { href: '/users', label: 'Users', icon: <UserCog /> },
   { href: '/settings', label: 'Settings', icon: <Settings /> },
 ]

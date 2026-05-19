@@ -1,7 +1,9 @@
-.PHONY: help db-up db-down db-logs backend-up backend-down backend-build frontend-up frontend-down frontend-build test-e2e test-e2e-ui all-up all-down
+.PHONY: help db-up db-down db-logs db-migrate-up db-migrate-down db-migrate-status backend-up backend-down backend-build frontend-up frontend-down frontend-build test-e2e test-e2e-ui all-up all-down
 
 BACKEND_DIR := backend
 FRONTEND_DIR := frontend
+MIGRATIONS_PATH := $(BACKEND_DIR)/scripts/migrations
+DATABASE_URL := postgres://postgres:postgres@localhost:5432/testapp?sslmode=disable
 
 help:
 	@echo "Usage: make <target>"
@@ -10,6 +12,11 @@ help:
 	@echo "  db-up       Start PostgreSQL container"
 	@echo "  db-down     Stop PostgreSQL container"
 	@echo "  db-logs     Show PostgreSQL logs"
+	@echo ""
+	@echo "Migrations:"
+	@echo "  db-migrate-up      Apply all pending migrations"
+	@echo "  db-migrate-down    Rollback last migration"
+	@echo "  db-migrate-status  Show migration status"
 	@echo ""
 	@echo "Backend (Go):"
 	@echo "  backend-up      Start backend with hot reload (air)"
@@ -38,6 +45,16 @@ db-down:
 
 db-logs:
 	docker compose logs -f postgres
+
+# Migrations
+db-migrate-up:
+	migrate -path $(MIGRATIONS_PATH) -database "$(DATABASE_URL)" up
+
+db-migrate-down:
+	migrate -path $(MIGRATIONS_PATH) -database "$(DATABASE_URL)" down 1
+
+db-migrate-status:
+	migrate -path $(MIGRATIONS_PATH) -database "$(DATABASE_URL)" version
 
 # Backend
 backend-up:
