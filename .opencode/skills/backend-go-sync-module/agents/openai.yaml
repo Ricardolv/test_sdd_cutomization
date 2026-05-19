@@ -1,0 +1,4 @@
+interface:
+  display_name: "Backend Go Sync Module"
+  short_description: "Sincronizar dominio com migrations SQL"
+  default_prompt: "Use $backend-go-sync-module para criar migrations SQL alinhadas ao dominio."

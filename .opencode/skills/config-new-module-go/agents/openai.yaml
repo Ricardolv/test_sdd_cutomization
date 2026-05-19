@@ -1,0 +1,4 @@
+interface:
+  display_name: "Config New Module Go"
+  short_description: "Criar modulo Go em modules/<modulo>"
+  default_prompt: "Use $config-new-module-go para criar um novo modulo Go, registrar no go.work e conectar ao backend."

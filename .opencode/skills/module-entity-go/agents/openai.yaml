@@ -1,0 +1,4 @@
+interface:
+  display_name: "Module Entity Go"
+  short_description: "Criar entidade de dominio com testes"
+  default_prompt: "Use $module-entity-go para criar uma entidade com validacao e testes completos."

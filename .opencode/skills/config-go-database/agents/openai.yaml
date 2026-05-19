@@ -1,0 +1,4 @@
+interface:
+  display_name: "Config Go Database"
+  short_description: "Configurar database/sql sem ORM"
+  default_prompt: "Use $config-go-database para configurar persistencia com database/sql e driver PostgreSQL."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Backend Go Provider Implementation"
+  short_description: "Implementar provider tecnico no backend"
+  default_prompt: "Use $backend-go-provider-implementation para criar a implementacao concreta de um provider do dominio."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Spec Backend Auth Basic Go"
+  short_description: "Orquestrar auth basica no backend"
+  default_prompt: "Use $spec-backend-auth-basic-go para orquestrar cadastro e login com JWT no backend Go."

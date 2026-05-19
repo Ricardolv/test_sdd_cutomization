@@ -1,0 +1,4 @@
+interface:
+  display_name: "Shared Validation Rule Go"
+  short_description: "Criar regra de validacao no shared"
+  default_prompt: "Use $shared-validation-rule-go para criar uma nova regra reutilizavel no packages/shared."

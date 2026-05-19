@@ -1,0 +1,4 @@
+interface:
+  display_name: "Config Package Shared Go"
+  short_description: "Criar pacote shared Go com contratos base"
+  default_prompt: "Use $config-package-shared-go para preparar packages/shared com erros, validacao e usecases."

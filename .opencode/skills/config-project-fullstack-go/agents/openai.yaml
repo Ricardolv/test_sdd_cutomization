@@ -1,0 +1,4 @@
+interface:
+  display_name: "Config Project Fullstack Go"
+  short_description: "Criar monorepo com Go + chi e frontend escolhido"
+  default_prompt: "Use $config-project-fullstack-go para criar um monorepo com backend Go (chi) e frontend escolhido (Next.js, Angular ou SvelteKit) na pasta atual."

@@ -1,0 +1,19 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "go-dev",
+      "runtimeExecutable": "go",
+      "runtimeArgs": ["run", "./cmd/server"],
+      "port": 8080,
+      "autoPort": true
+    },
+    {
+      "name": "go-hot-reload",
+      "runtimeExecutable": "air",
+      "runtimeArgs": [],
+      "port": 8080,
+      "autoPort": true
+    }
+  ]
+}

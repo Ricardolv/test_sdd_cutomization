@@ -1,0 +1,4 @@
+interface:
+  display_name: "Backend Go Repository"
+  short_description: "Implementar repositorio com database/sql"
+  default_prompt: "Use $backend-go-repository para implementar uma interface de repositorio do dominio com SQL explicito."

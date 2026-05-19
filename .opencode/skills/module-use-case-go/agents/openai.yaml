@@ -1,0 +1,4 @@
+interface:
+  display_name: "Module Use Case Go"
+  short_description: "Criar caso de uso com testes"
+  default_prompt: "Use $module-use-case-go para criar um caso de uso Go com contratos In/Out e testes."

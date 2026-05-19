@@ -1,0 +1,4 @@
+interface:
+  display_name: "Module Aggregate Go"
+  short_description: "Criar estrutura base do agregado"
+  default_prompt: "Use $module-aggregate-go para criar model/provider/usecase no agregado do modulo."

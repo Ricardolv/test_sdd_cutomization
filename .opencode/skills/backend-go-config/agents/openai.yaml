@@ -1,0 +1,4 @@
+interface:
+  display_name: "Backend Go Config"
+  short_description: "Configurar middlewares, erro e auth"
+  default_prompt: "Use $backend-go-config para criar middlewares, padrao de erros e autenticacao JWT no backend Go."

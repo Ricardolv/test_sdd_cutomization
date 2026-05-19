@@ -1,0 +1,4 @@
+interface:
+  display_name: "Backend Go Handler"
+  short_description: "Criar handlers HTTP com chi"
+  default_prompt: "Use $backend-go-handler para expor um caso de uso via chi e adicionar teste com httptest."

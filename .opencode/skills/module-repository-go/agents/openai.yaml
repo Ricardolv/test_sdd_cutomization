@@ -1,0 +1,4 @@
+interface:
+  display_name: "Module Repository Go"
+  short_description: "Criar repositorio e fake in-memory"
+  default_prompt: "Use $module-repository-go para criar a interface de repositorio e a fake para testes."
