@@ -1,0 +1,68 @@
+@baseUrl = http://localhost:9090
+
+### Create customer - success
+POST {{baseUrl}}/customers
+Content-Type: application/json
+
+{
+  "name": "John Doe",
+  "email": "john@example.com",
+  "phone": "+1234567890",
+  "notes": "VIP customer"
+}
+
+### Create customer - missing name (should fail 400)
+POST {{baseUrl}}/customers
+Content-Type: application/json
+
+{
+  "name": "",
+  "email": "jane@example.com",
+  "phone": "",
+  "notes": ""
+}
+
+### Create customer - missing email (should fail 400)
+POST {{baseUrl}}/customers
+Content-Type: application/json
+
+{
+  "name": "Jane Doe",
+  "email": "",
+  "phone": "",
+  "notes": ""
+}
+
+### Create customer - duplicate email (should fail 409)
+POST {{baseUrl}}/customers
+Content-Type: application/json
+
+{
+  "name": "John Duplicate",
+  "email": "john@example.com",
+  "phone": "+0987654321",
+  "notes": "Should fail"
+}
+
+### List all customers
+GET {{baseUrl}}/customers
+
+### Get customer by ID
+GET {{baseUrl}}/customers/{{customer_id}}
+
+### Update customer
+PUT {{baseUrl}}/customers/{{customer_id}}
+Content-Type: application/json
+
+{
+  "name": "John Updated",
+  "email": "john.updated@example.com",
+  "phone": "+1111111111",
+  "notes": "Updated notes"
+}
+
+### Deactivate customer
+DELETE {{baseUrl}}/customers/{{customer_id}}
+
+### Get deactivated customer (should fail 404)
+GET {{baseUrl}}/customers/{{customer_id}}
