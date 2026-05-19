@@ -23,7 +23,7 @@ Entregar o CRUD de `product` no módulo `catalog`, com agregado, persistência, 
 
 ## Observações Locais
 
-- O caso de uso `save-product` cobre tanto criação quanto atualização.
+- O caso de uso `save-product` cobre tanto criação quanto atualização e é **distinto** de qualquer caso de uso existente. Não fundir com outros.
 - Casos de uso de comando retornam `void`. Consultas não viram caso de uso — o handler chama o repositório direto.
 - O projeto não usa DTOs de entrada. **Respostas de leitura devem ser mapeadas para objetos simples no handler antes de retornar** — entidades de domínio não serializam diretamente. O handler deve construir explicitamente o objeto de retorno: `return { id: product.ID, name: product.Name, description: product.Description, price: product.Price, status: product.Status, availableOnline: product.AvailableOnline, featured: product.Featured, allowsPreOrder: product.AllowsPreOrder }`.
 - O campo `status` é uma enumeração com os valores `active`, `inactive` e `draft`. Validar com regra `in` do pacote compartilhado e expor a enumeração como tipo no agregado.
