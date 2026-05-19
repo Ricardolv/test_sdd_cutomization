@@ -39,6 +39,7 @@ func main() {
 	authRepo := authRepositories.NewPostgresAuthRepository(db)
 	authService := authServices.NewAuthService(authRepo, crypto)
 	authHandler := authHandlers.NewAuthHandler(authService, authRepo, crypto, cfg.JWTSecret)
+	userHandler := authHandlers.NewUserHandler(authRepo, crypto)
 
 	router := chi.NewRouter()
 
@@ -61,6 +62,7 @@ func main() {
 	router.Get("/health", handlers.HealthCheck)
 	router.Mount("/auth", authHandler.Routes())
 	router.Mount("/customers", customerHandler.Routes())
+	router.Mount("/users", userHandler.Routes())
 
 	fmt.Printf("Server starting on :%s\n", cfg.Port)
 	if err := http.ListenAndServe(":"+cfg.Port, router); err != nil {

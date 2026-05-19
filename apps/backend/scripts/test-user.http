@@ -1,0 +1,112 @@
+@baseUrl = http://localhost:9090
+
+### POST /users - create user success
+POST {{baseUrl}}/users
+Content-Type: application/json
+
+{
+  "name": "John Doe",
+  "email": "john@example.com",
+  "password": "secret123"
+}
+
+### POST /users - missing name (400)
+POST {{baseUrl}}/users
+Content-Type: application/json
+
+{
+  "email": "noname@example.com",
+  "password": "secret123"
+}
+
+### POST /users - missing email (400)
+POST {{baseUrl}}/users
+Content-Type: application/json
+
+{
+  "name": "No Email",
+  "password": "secret123"
+}
+
+### POST /users - missing password (400)
+POST {{baseUrl}}/users
+Content-Type: application/json
+
+{
+  "name": "No Password",
+  "email": "nopass@example.com"
+}
+
+### POST /users - password too short (400)
+POST {{baseUrl}}/users
+Content-Type: application/json
+
+{
+  "name": "Short Pass",
+  "email": "shortpass@example.com",
+  "password": "12345"
+}
+
+### POST /users - duplicate email (409)
+POST {{baseUrl}}/users
+Content-Type: application/json
+
+{
+  "name": "Duplicate",
+  "email": "john@example.com",
+  "password": "secret123"
+}
+
+### GET /users - list all paginated
+GET {{baseUrl}}/users?page=1&limit=10
+
+### GET /users/{id} - get by id
+GET {{baseUrl}}/users/{{user_id}}
+
+### PUT /users/{id} - update user success
+PUT {{baseUrl}}/users/{{user_id}}
+Content-Type: application/json
+
+{
+  "name": "John Updated",
+  "email": "john.updated@example.com",
+  "password": "newpass123"
+}
+
+### PUT /users/{id} - update keeping password
+PUT {{baseUrl}}/users/{{user_id}}
+Content-Type: application/json
+
+{
+  "name": "John No Pass Change",
+  "email": "john.nopass@example.com"
+}
+
+### PUT /users/{id} - update with password too short (400)
+PUT {{baseUrl}}/users/{{user_id}}
+Content-Type: application/json
+
+{
+  "name": "Bad Password",
+  "email": "badpass@example.com",
+  "password": "123"
+}
+
+### PUT /users/{id} - update nonexistent user (404)
+PUT {{baseUrl}}/users/nonexistent-id
+Content-Type: application/json
+
+{
+  "name": "Ghost",
+  "email": "ghost@example.com",
+  "password": "secret123"
+}
+
+### DELETE /users/{id} - delete user success
+DELETE {{baseUrl}}/users/{{user_id}}
+
+### DELETE /users/{id} - delete nonexistent user (404)
+DELETE {{baseUrl}}/users/nonexistent-id
+
+### GET /users/{id} - get deleted user (404)
+GET {{baseUrl}}/users/{{user_id}}
