@@ -83,10 +83,11 @@ func GetValidationErrors(err error) []error {
 }
 
 var (
-	ErrNameRequired     = errors.New("name is required")
-	ErrEmailRequired    = errors.New("email is required")
-	ErrEmailDuplicate   = errors.New("email must be unique")
-	ErrPasswordRequired = errors.New("password is required")
-	ErrPasswordTooShort = errors.New("password must be at least 6 characters")
-	ErrUserNotFound     = errors.New("user not found")
+	ErrNameRequired        = errors.New("name is required")
+	ErrEmailRequired       = errors.New("email is required")
+	ErrEmailDuplicate      = errors.New("email must be unique")
+	ErrPasswordRequired    = errors.New("password is required")
+	ErrPasswordTooShort    = errors.New("password must be at least 6 characters")
+	ErrUserNotFound        = errors.New("user not found")
+	ErrInvalidCredentials  = errors.New("user.credentials.invalid")
 )

@@ -1,6 +1,8 @@
 import React from 'react'
 import { Sidebar } from '@/shared/components'
+import { AuthGuard } from '@/modules/auth'
 import { LayoutDashboard, Users, Settings } from 'lucide-react'
+import { PrivateShell } from '@/modules/auth/components/private-shell'
 
 const navItems = [
   { href: '/dashboard', label: 'Dashboard', icon: <LayoutDashboard /> },
@@ -14,9 +16,11 @@ export default function PrivateLayout({
   children: React.ReactNode
 }) {
   return (
-    <div className="flex h-screen">
-      <Sidebar items={navItems} />
-      <main className="flex-1 overflow-auto p-6">{children}</main>
-    </div>
+    <AuthGuard>
+      <PrivateShell>
+        <Sidebar items={navItems} />
+        <main className="flex-1 overflow-auto p-6">{children}</main>
+      </PrivateShell>
+    </AuthGuard>
   )
 }

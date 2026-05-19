@@ -7,6 +7,7 @@ export const messages = {
   'auth.user_not_found': 'Usuário não encontrado',
   'auth.register_success': 'Cadastro realizado com sucesso!',
   'auth.login_coming_soon': 'Login em breve',
+  'user.credentials.invalid': 'E-mail ou senha inválidos.',
   'join.title_register': 'Criar conta',
   'join.title_login': 'Entrar',
   'join.switch_to_login': 'Já tem uma conta? Entrar',

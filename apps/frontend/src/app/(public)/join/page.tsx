@@ -1,8 +1,10 @@
 'use client'
 
-import { useState, type FormEvent } from 'react'
+import { useState, type FormEvent, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 import { getMessage } from '@/shared/i18n'
+import { useAuth } from '@/modules/auth'
 import type { ApiErrorResponse } from '@/shared/types/api-error.type'
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:9090'
@@ -15,6 +17,14 @@ export default function JoinPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
+  const { status, login: authLogin } = useAuth()
+  const router = useRouter()
+
+  useEffect(() => {
+    if (status === 'authenticated') {
+      router.replace('/dashboard')
+    }
+  }, [status, router])
 
   async function handleRegister(e: FormEvent) {
     e.preventDefault()
@@ -50,9 +60,38 @@ export default function JoinPage() {
     }
   }
 
-  function handleLogin(e: FormEvent) {
+  async function handleLogin(e: FormEvent) {
     e.preventDefault()
-    toast.info(getMessage('auth.login_coming_soon'))
+    setLoading(true)
+
+    try {
+      const res = await fetch(`${API_URL}/auth/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      })
+
+      if (res.status === 200) {
+        const data = await res.json()
+        authLogin(data.token)
+        toast.success('Login successful')
+        router.push('/dashboard')
+        return
+      }
+
+      const data: ApiErrorResponse = await res.json()
+      if (data.error) {
+        toast.error(getMessage(data.error))
+      }
+    } catch {
+      toast.error('Unexpected error')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  if (status === 'loading' || status === 'authenticated') {
+    return null
   }
 
   return (
@@ -151,9 +190,10 @@ export default function JoinPage() {
 
             <button
               type="submit"
-              className="w-full rounded-md bg-zinc-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-zinc-800"
+              disabled={loading}
+              className="w-full rounded-md bg-zinc-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-zinc-800 disabled:opacity-50"
             >
-              {getMessage('join.login_button')}
+              {loading ? '...' : getMessage('join.login_button')}
             </button>
           </form>
         )}

@@ -4,16 +4,22 @@ import (
 	"encoding/json"
 	"net/http"
 
+	"github.com/sdd-cod3r/test-app/apps/backend/internal/modules/auth"
 	"github.com/sdd-cod3r/test-app/apps/backend/internal/modules/auth/models"
+	"github.com/sdd-cod3r/test-app/apps/backend/internal/modules/auth/providers"
+	"github.com/sdd-cod3r/test-app/apps/backend/internal/modules/auth/repositories"
 	"github.com/sdd-cod3r/test-app/apps/backend/internal/modules/auth/services"
 )
 
 type AuthHandler struct {
-	service *services.AuthService
+	service      *services.AuthService
+	repo         repositories.AuthRepository
+	crypto       providers.CryptoProvider
+	jwtSecret    string
 }
 
-func NewAuthHandler(service *services.AuthService) *AuthHandler {
-	return &AuthHandler{service: service}
+func NewAuthHandler(service *services.AuthService, repo repositories.AuthRepository, crypto providers.CryptoProvider, jwtSecret string) *AuthHandler {
+	return &AuthHandler{service: service, repo: repo, crypto: crypto, jwtSecret: jwtSecret}
 }
 
 func (h *AuthHandler) Register(w http.ResponseWriter, r *http.Request) {
@@ -34,6 +40,60 @@ func (h *AuthHandler) Register(w http.ResponseWriter, r *http.Request) {
 		"name":  u.Name,
 		"email": u.Email,
 	})
+}
+
+func (h *AuthHandler) Login(w http.ResponseWriter, r *http.Request) {
+	var req LoginRequest
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		writeError(w, http.StatusBadRequest, "invalid_request", "invalid JSON body")
+		return
+	}
+
+	uc := services.NewLoginUser(h.repo, h.crypto)
+	output, err := uc.Execute(r.Context(), services.LoginUserInput{
+		Email:    req.Email,
+		Password: req.Password,
+	})
+	if err != nil {
+		handleLoginError(w, err)
+		return
+	}
+
+	user := &models.User{
+		ID:    output.ID,
+		Name:  output.Name,
+		Email: output.Email,
+	}
+
+	token, err := auth.SignUserToken(user, h.jwtSecret)
+	if err != nil {
+		writeError(w, http.StatusInternalServerError, "internal_error", "failed to generate token")
+		return
+	}
+
+	writeJSON(w, http.StatusOK, map[string]any{
+		"token": token,
+		"user": map[string]any{
+			"id":    output.ID,
+			"name":  output.Name,
+			"email": output.Email,
+		},
+	})
+}
+
+func handleLoginError(w http.ResponseWriter, err error) {
+	switch {
+	case err == models.ErrInvalidCredentials:
+		writeError(w, http.StatusUnauthorized, "user.credentials.invalid", "Invalid credentials")
+	case err.Error() == "email is required":
+		writeError(w, http.StatusUnprocessableEntity, "auth.email_required", "Email is required")
+	case err.Error() == "email is invalid":
+		writeError(w, http.StatusUnprocessableEntity, "auth.email_invalid", "Email is invalid")
+	case err.Error() == "password is required":
+		writeError(w, http.StatusUnprocessableEntity, "auth.password_required", "Password is required")
+	default:
+		writeError(w, http.StatusInternalServerError, "internal_error", "unexpected error occurred")
+	}
 }
 
 func handleAuthServiceError(w http.ResponseWriter, err error) {

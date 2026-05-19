@@ -25,3 +25,11 @@ server
 
 # Logs
 *.log
+
+# Test outputs
+test-results/
+playwright-report/
+blob-report/
+
+# Temp
+tmp/

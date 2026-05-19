@@ -12,6 +12,7 @@ import (
 	"github.com/sdd-cod3r/test-app/apps/backend/config"
 	"github.com/sdd-cod3r/test-app/apps/backend/internal/database"
 	authHandlers "github.com/sdd-cod3r/test-app/apps/backend/internal/modules/auth/handlers"
+	authProviders "github.com/sdd-cod3r/test-app/apps/backend/internal/modules/auth/providers"
 	authRepositories "github.com/sdd-cod3r/test-app/apps/backend/internal/modules/auth/repositories"
 	authServices "github.com/sdd-cod3r/test-app/apps/backend/internal/modules/auth/services"
 	customerHandlers "github.com/sdd-cod3r/test-app/apps/backend/internal/modules/customer/handlers"
@@ -34,9 +35,10 @@ func main() {
 	customerService := services.NewCustomerService(customerRepo)
 	customerHandler := customerHandlers.NewCustomerHandler(customerService)
 
+	crypto := authProviders.NewBcryptCryptoProvider()
 	authRepo := authRepositories.NewPostgresAuthRepository(db)
-	authService := authServices.NewAuthService(authRepo)
-	authHandler := authHandlers.NewAuthHandler(authService)
+	authService := authServices.NewAuthService(authRepo, crypto)
+	authHandler := authHandlers.NewAuthHandler(authService, authRepo, crypto, cfg.JWTSecret)
 
 	router := chi.NewRouter()
 
