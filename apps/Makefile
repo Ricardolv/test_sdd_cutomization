@@ -1,4 +1,4 @@
-.PHONY: help db-up db-down db-logs backend-up backend-down backend-build frontend-up frontend-down frontend-build all-up all-down
+.PHONY: help db-up db-down db-logs backend-up backend-down backend-build frontend-up frontend-down frontend-build test-e2e test-e2e-ui all-up all-down
 
 BACKEND_DIR := backend
 FRONTEND_DIR := frontend
@@ -20,6 +20,10 @@ help:
 	@echo "  frontend-up      Start frontend dev server"
 	@echo "  frontend-down    Stop frontend process"
 	@echo "  frontend-build   Build frontend for production"
+	@echo ""
+	@echo "Tests (Playwright):"
+	@echo "  test-e2e       Run E2E tests in headless mode"
+	@echo "  test-e2e-ui    Run E2E tests with browser UI (headed)"
 	@echo ""
 	@echo "All:"
 	@echo "  all-up      Start database, backend, and frontend"
@@ -54,6 +58,13 @@ frontend-down:
 
 frontend-build:
 	cd $(FRONTEND_DIR) && npm run build
+
+# Tests (Playwright)
+test-e2e:
+	cd $(FRONTEND_DIR) && npx playwright test
+
+test-e2e-ui:
+	cd $(FRONTEND_DIR) && npx playwright test --headed
 
 # All
 all-up: db-up

@@ -1,0 +1,24 @@
+export const messages = {
+  'auth.name_required': 'O nome é obrigatório',
+  'auth.email_required': 'O e-mail é obrigatório',
+  'auth.email_duplicate': 'Este e-mail já está cadastrado',
+  'auth.password_required': 'A senha é obrigatória',
+  'auth.password_too_short': 'A senha deve ter pelo menos 6 caracteres',
+  'auth.user_not_found': 'Usuário não encontrado',
+  'auth.register_success': 'Cadastro realizado com sucesso!',
+  'auth.login_coming_soon': 'Login em breve',
+  'join.title_register': 'Criar conta',
+  'join.title_login': 'Entrar',
+  'join.switch_to_login': 'Já tem uma conta? Entrar',
+  'join.switch_to_register': 'Não tem uma conta? Criar conta',
+  'join.name_label': 'Nome',
+  'join.name_placeholder': 'Seu nome',
+  'join.email_label': 'E-mail',
+  'join.email_placeholder': 'seu@email.com',
+  'join.password_label': 'Senha',
+  'join.password_placeholder': 'Sua senha',
+  'join.register_button': 'Criar conta',
+  'join.login_button': 'Entrar',
+} as const
+
+export type MessageKey = keyof typeof messages
