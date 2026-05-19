@@ -4,7 +4,7 @@ Sistema web simples para organizar a base de clientes de um pequeno negócio, su
 
 ## Visão Geral
 
-Este projeto é um **monorepo fullstack** construído com metodologia **SDD (Spec-Driven Development)** customizada — sem frameworks de automação de spec — utilizando **OpenCode** como IDE de IA e **LLMs gratuitos Qwen3.6 Plus Free**  para geração de código.
+Este projeto é um **monorepo fullstack** construído com metodologia **SDD (Spec-Driven Development)** customizada — sem frameworks de automação de spec — utilizando **OpenCode** como IDE de IA e **LLMs gratuito: Qwen3.6 Plus Free**  para geração de código.
 
 Cada funcionalidade nasce como uma **spec** em `.spec/changes/` que descreve a mudança **antes** da implementação, garantindo rastreabilidade completa do que foi feito e por quê.
 
